@@ -20,4 +20,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGet("/hello", () => "Hello from InvoiceHub");
+app.MapGet("/hello/{name}", (string name) => $"Hello {name}");
+
 app.Run();
