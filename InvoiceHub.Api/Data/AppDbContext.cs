@@ -1,5 +1,6 @@
 ﻿using InvoiceHub.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace InvoiceHub.Api.Data
 {
@@ -11,6 +12,7 @@ namespace InvoiceHub.Api.Data
         }
 
         public DbSet<Invoice> Invoices => Set<Invoice>();
+        public DbSet<Customer> Customers => Set<Customer>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +25,15 @@ namespace InvoiceHub.Api.Data
                 e.Property(x => x.Subtotal).HasPrecision(18, 2);
                 e.Property(x => x.VatAmount).HasPrecision(18, 2);
                 e.Property(x => x.Total).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<Customer>(e =>
+            {
+                e.Property(x => x.Name).HasMaxLength(200).IsRequired();
+                e.Property(x => x.Email).HasMaxLength(200);
+                e.Property(x => x.Phone).HasMaxLength(30);
+                e.Property(x => x.TaxRegistrationNumber).HasMaxLength(50);
+                e.HasIndex(x => x.Email);
             });
         }
     }
